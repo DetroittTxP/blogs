@@ -2,11 +2,14 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
-  const [toggleMenu, SettoggleMenu] = useState(false);
+  const [toggleMenu, SettoggleMenu] = useState<boolean>(false);
+  const {data:session} = useSession();
 
-  // Dynamic styles for transition
+  
+
   const menuStyles = {
     maxHeight: toggleMenu ? "100vh" : "0",
     overflow: "hidden",
@@ -14,7 +17,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-lg p-6">
+    <nav className="bg-white shadow-lg p-6 ">
       <div className="flex items-center justify-between px-20 gap-6">
         <div className="font-serif font-bold text-3xl hover:text-4xl">
           Blogs
@@ -39,10 +42,19 @@ export default function Navbar() {
 
         <div>
           <ul className="hidden md:flex gap-6 text-lg">
-            <li className="p-3 hover:text-gray-500 cursor-pointer">Login</li>
-            <li className="p-3 border rounded-lg bg-black text-white hover:bg-white hover:text-black cursor-pointer">
+            { !session ? <>
+              <Link href="/login" className="p-3 hover:text-gray-500 cursor-pointer">Login</Link>
+            <li className="p-3 border rounded-lg bg-black text-white hover:bg-white 
+                         hover:text-black cursor-pointer transition duration-300 ease-in-out">
               <Link href="/register">Sign Up</Link>
             </li>
+
+            </>
+            :
+            <li className="p-3 border rounded-lg bg-red-500 text-white hover:bg-white 
+                         hover:text-black cursor-pointer transition duration-300 ease-in-out">
+                 <a onClick={() => signOut()}>SignOut</a>
+            </li>}
           </ul>
         </div>
       </div>
@@ -59,7 +71,8 @@ export default function Navbar() {
 
         <ul className="flex flex-col gap-6 text-lg">
           <li className="p-3 hover:text-gray-500 cursor-pointer">Login</li>
-          <li className="p-3 border rounded-lg bg-black text-white hover:bg-white hover:text-black cursor-pointer">
+          <li className="p-3 border rounded-lg bg-black text-white hover:bg-white hover:text-black 
+          cursor-pointer transition duration-300 ease-in-out">
             <Link href="/register">Sign Up</Link>
           </li>
         </ul>
