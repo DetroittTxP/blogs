@@ -28,7 +28,7 @@ export default function Navbar() {
     {
       key: '1',
       label: (
-        <a className="w-full" href={`/edit/${session?.user?.id}`}>
+        <a className="w-full" href={`/edit`}>
            Edit Profile
         </a>
       ),
@@ -70,7 +70,7 @@ export default function Navbar() {
               <li className="p-3 text-lg text-black">
                  <div className="flex justify-center items-center gap-2">
                   <Dropdown menu={{items}}>
-                      <FaRegUserCircle onClick={() => SetisOpendropdown(!IsopenDropdown)} className="cursor-pointer" size={32}/>
+                      <FaRegUserCircle  onClick={() => SetisOpendropdown(!IsopenDropdown)} className=" hover:opacity-40 cursor-pointer" size={32}/>
                   </Dropdown>
     
 

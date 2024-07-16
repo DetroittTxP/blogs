@@ -24,14 +24,16 @@ export default function EditProfilePage() {
     
  
   useEffect(() => {
-      axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/user/${session?.user?.id}?details=edit`)
-      .then(res => {
-        if(res.status!= 200){
-             return alert('error getting user data')
-        }
-         return Setuserdata(res.data)
-      })
-  },[])
+      if(session){
+        axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/user/${session?.user?.id}?details=edit`)
+        .then(res => {
+          if(res.status!= 200){
+               return alert('error getting user data')
+          }
+           return Setuserdata(res.data)
+        })
+      }
+  },[session])
 
   const onFileChange=(event:ChangeEvent<HTMLInputElement>) => {
 
@@ -88,15 +90,34 @@ export default function EditProfilePage() {
 
               
             <div className="flex flex-col space-y-2  border-b-2 mt-8 focus-within:border-red-500">
-                <label className="font-serif  text-lg">Username</label>
+                <label className="font-serif  text-lg">Email</label>
                 <input
              
                   value={userdata.email }
                   type="text"
-                  className="p-2 focus:border-red-500   appearance-none transition ease-in focus:outline-none border   rounded-lg shadow-lg hover:bg-gray-50"
+                  className="p-2 focus:border-red-500   hover:bg-gray-100  appearance-none transition ease-in focus:outline-none border   rounded-lg shadow-lg hover:bg-gray-50"
                 />
               </div>
+
+              <div className="flex flex-col space-y-2  border-b-2 mt-8 focus-within:border-red-500">
+                <label className="font-serif  text-lg">Bio</label>
+                <textarea
+             
+                  value={userdata.bio }
+                
+                  className="p-2 focus:border-red-500  
+                     hover:bg-gray-100
+                     appearance-none transition ease-in focus:outline-none border rounded-lg shadow-lg hover:bg-gray-50"
+                />
+              </div>
+
+              <button type="submit" className="p-2 border bg-blue-200 rounded-lg 
+                font-serif hover:bg-blue-100 font-bold text-lg transition-all duration-300
+                ease-in-out
+               ">Confirm</button>
           </div>
+
+          
 
           
          
