@@ -7,7 +7,6 @@ export async function GET(){
      return NextResponse.json('ok');
 }
 
-
 export async function POST(req:NextRequest){
      
      const {username,password,email} = await req.json();
@@ -33,3 +32,4 @@ export async function POST(req:NextRequest){
      }
      
 }
+

@@ -1,13 +1,40 @@
+
 "use client";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { FaRegUserCircle } from "react-icons/fa";
+import type { MenuProps } from 'antd';
+import { Dropdown, Space } from 'antd';
+
+
+
+interface sessionData{
+  expires:Date,
+  user:{
+     email:string,
+     id:string,
+     username:string
+  }
+}
 
 export default function Navbar() {
   const [toggleMenu, SettoggleMenu] = useState<boolean>(false);
   const {data:session} = useSession();
+  const [IsopenDropdown,SetisOpendropdown] = useState(false);
 
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <a className="w-full" href={`/edit/${session?.user?.id}`}>
+           Edit Profile
+        </a>
+      ),
+    },
+  
+  ];
   
 
   const menuStyles = {
@@ -19,21 +46,8 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-lg p-6 ">
       <div className="flex items-center justify-between px-20 gap-6">
-        <div className="font-serif font-bold text-3xl hover:text-4xl">
+        <div className="font-serif font-bold text-3xl hover:text-4xl transition-all duration-300 ease-in-out">
           Blogs
-        </div>
-
-        <div className="hidden md:flex relative">
-          <FaSearch
-            className="absolute top-2.5 left-3 text-gray-400"
-            size={20}
-          />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="md:w-96 hover:border-black hover:border-2 pl-10 pr-3 py-2 rounded-md shadow-sm w-64 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-            style={{ transition: "all 0.3s ease" }}
-          />
         </div>
 
         <div className="bg-black text-white p-2 rounded-lg hover:text-black hover:bg-white cursor-pointer md:hidden">
@@ -51,12 +65,32 @@ export default function Navbar() {
 
             </>
             :
-            <li className="p-3 border rounded-lg bg-red-500 text-white hover:bg-white 
+            <>
+
+              <li className="p-3 text-lg text-black">
+                 <div className="flex justify-center items-center gap-2">
+                  <Dropdown menu={{items}}>
+                      <FaRegUserCircle onClick={() => SetisOpendropdown(!IsopenDropdown)} className="cursor-pointer" size={32}/>
+                  </Dropdown>
+    
+
+                 <p className="font-serif text-lg ">{session?.user?.username}</p>
+              
+                 </div>
+            
+              </li>
+              <li className="p-3 border rounded-lg bg-red-500 text-white hover:bg-white 
                          hover:text-black cursor-pointer transition duration-300 ease-in-out">
-                 <a onClick={() => signOut()}>SignOut</a>
-            </li>}
+                 <a className="font-serif" onClick={() => signOut()}>SignOut</a>
+            </li>
+
+            </>
+              
+
+           }
           </ul>
         </div>
+     
       </div>
 
       <div style={menuStyles} className="md:hidden">
@@ -68,6 +102,8 @@ export default function Navbar() {
             style={{ transition: "all 0.3s ease" }}
           />
         </div>
+
+           
 
         <ul className="flex flex-col gap-6 text-lg">
           <li className="p-3 hover:text-gray-500 cursor-pointer">Login</li>

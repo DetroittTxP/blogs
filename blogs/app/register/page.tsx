@@ -43,7 +43,7 @@ export default function RegisterPage() {
    }
 
    try{
-      let regsiter = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/register`,{username,password,email});
+      let regsiter = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/user`,{username,password,email});
       if(regsiter.status === 201){
          Setloading(false);
          return notifySuccess();
