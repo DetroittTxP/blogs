@@ -24,7 +24,7 @@ export async function GET(req:NextRequest, {params}:IdType){
         switch(detail){
              case 'edit':
                await ConnectDB();
-               let data = await User.findById(id).select('username email bio profileImage');
+               let data = await User.findById(id).select('username email bio profilePicture');
                return NextResponse.json(data,{status:200});
              default:
                return NextResponse.json({},{status:404});  
@@ -35,10 +35,12 @@ export async function PUT(req:NextRequest , {params}:IdType){
 
      const data = await req.json();
      const {id} = params;
-
+     console.log(data);
+     
+  
      try{
         await ConnectDB();
-        let update = await User.findByIdAndUpdate(id,data,{new:true});
+        let update = await User.findByIdAndUpdate(id,data.newuserdata,{new:true});
 
         if(!update){
              return NextResponse.json({status:'error',msg:'no user found to update'},{status:404});

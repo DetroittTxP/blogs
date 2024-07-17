@@ -10,19 +10,13 @@ import { Dropdown, Space } from 'antd';
 
 
 
-interface sessionData{
-  expires:Date,
-  user:{
-     email:string,
-     id:string,
-     username:string
-  }
-}
+
 
 export default function Navbar() {
   const [toggleMenu, SettoggleMenu] = useState<boolean>(false);
   const {data:session} = useSession();
   const [IsopenDropdown,SetisOpendropdown] = useState(false);
+
 
   const items: MenuProps['items'] = [
     {
@@ -47,7 +41,10 @@ export default function Navbar() {
     <nav className="bg-white shadow-lg p-6 ">
       <div className="flex items-center justify-between px-20 gap-6">
         <div className="font-serif font-bold text-3xl hover:text-4xl transition-all duration-300 ease-in-out">
+          <Link href='/'>
           Blogs
+          </Link>
+ 
         </div>
 
         <div className="bg-black text-white p-2 rounded-lg hover:text-black hover:bg-white cursor-pointer md:hidden">
@@ -79,9 +76,9 @@ export default function Navbar() {
                  </div>
             
               </li>
-              <li className="p-3 border rounded-lg bg-red-500 text-white hover:bg-white 
-                         hover:text-black cursor-pointer transition duration-300 ease-in-out">
-                 <a className="font-serif" onClick={() => signOut()}>SignOut</a>
+              <li className="p-3">
+                 <a className="p-3 font-serif  border rounded-lg bg-red-500 text-white hover:bg-white 
+                         hover:text-black cursor-pointer transition duration-300 ease-in-out" onClick={() => signOut()}>SignOut</a>
             </li>
 
             </>

@@ -15,7 +15,7 @@ export default function DashboardLayout({
     <section>
       
 
-      <div className="flex justify-center mt-10 h-screen">
+      <div className="flex justify-center my-10 mx-10 h-screen">
       <div className="w-full">
         <div className="grid grid-cols-8 gap-6  h-full">
           <div className="col-span-2 ">

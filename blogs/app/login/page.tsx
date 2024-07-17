@@ -4,15 +4,26 @@ import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
 import { ClipLoader } from 'react-spinners';
 import {signIn} from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+
 export default function LoginPage() {
 
   const [username,Setusername] = useState<string>('');
   const [password,Setpassword] = useState<string>('');
   const [loading,Setloading] = useState<boolean>(false);
   const router = useRouter();
+  const {data:session,status} = useSession();
+
+  if(session &&  status === 'authenticated' )
+  {
+    return router.replace('/');
+  }
+  
+
 
   const onSubmit=async(e:FormEvent)=>{
       e.preventDefault();
+      Setloading(true);
 
       try{
          const res = await signIn('credentials',{
@@ -24,7 +35,7 @@ export default function LoginPage() {
          if(res?.error){
              return alert('invalid credentials');
          }
-
+        Setloading(false);
          return router.replace('/');
       }
       catch(err){

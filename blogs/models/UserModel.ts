@@ -15,7 +15,10 @@ const UserSchema:Schema = new Schema({
         required:true,
         unique:true,
     },
-    profilePicture:String,
+    profilePicture:{
+        type:String,
+        default:'temp.png'
+    },
     bio:String,
 
 },{timestamps:true})

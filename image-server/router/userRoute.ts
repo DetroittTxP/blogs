@@ -36,7 +36,12 @@ router.get('/:userid/:imagename',(req:Request,res:Response) => {
     return res.status(200).sendFile(filename)
 })
 
+
+
+
+
+
 router.post('/:id',uploadUserImage.single('image'),(req:Request,res:Response) => {
-     return res.send('image uploaded').status(201);
+     return res.send({filename:req.file?.filename}).status(200);
 })
 
