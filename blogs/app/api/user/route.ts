@@ -3,8 +3,28 @@ import User from "@/models/UserModel";
 import { NextRequest,NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
 
-export async function GET(){
-     return NextResponse.json('ok');
+export async function GET(req:NextRequest){
+     const url = new URL(req.url);
+     const detail = url.searchParams.get('detail');
+     const authorIds = url.searchParams.getAll('authorId');
+ 
+     if (detail === 'per') {
+         try{
+
+          const users = await User.find({_id:authorIds}).select('username profilePicture');
+
+          return NextResponse.json({ message: 'Success', users });
+         }
+         catch(err){
+             console.log(err);
+             return NextResponse.json({ message: 'Invalid detail parameter' }, { status: 400 });
+         }
+      
+ 
+         
+     } else {
+         return NextResponse.json({ message: 'Invalid detail parameter' }, { status: 400 });
+     }
 }
 
 export async function POST(req:NextRequest){

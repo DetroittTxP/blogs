@@ -1,12 +1,23 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Addpost from './Addpost'
 import Managepost from './Managepost';
+import { useSession } from 'next-auth/react';
+import { ClipLoader } from 'react-spinners';
+
 
 export default function Managempostpage() {
 
   const [showAddPost,SetshowAddpost] = useState<boolean>(false);
+  const {data:session,status}  = useSession();
+  const [SessionId,Setsessionid] = useState<string | undefined>('');
+  
+  useEffect(() => { 
+      if(session && status == 'authenticated'){
+          Setsessionid(session.user.id)
+      }
+  },[status])
 
   return (
     <div>
@@ -25,7 +36,10 @@ export default function Managempostpage() {
 
 
         <section id='post'>
-               { showAddPost ?  <Addpost/> : <Managepost/> }             
+            
+               { showAddPost ?  <Addpost authorId={SessionId} /> : <Managepost authorId={SessionId}/> }          
+           
+                 
         </section> 
     </div>
   )
