@@ -65,8 +65,6 @@ const GetPerUser = async (authorId : string[] ) => {
 
 export default async function Home() {
    
-
-
   const handleData = async () => {
     const allpost:Postdata[] = await GetPosts();
     const userdata:Userdata[] = await GetPerUser(allpost.map(data => data.authorId));

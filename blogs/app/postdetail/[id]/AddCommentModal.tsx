@@ -3,6 +3,7 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import { Button, Modal, Space } from 'antd';
 import { useSession } from 'next-auth/react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 interface reviewDatatype{
   postId:string,
@@ -18,8 +19,7 @@ const AddCommentModal:React.FC<prop> = ({postId}) => {
   const [open, setOpen] = useState(false);
   const {data:session,status} = useSession();
 
-    console.log(postId);
-    
+
   const [reviewdata,Setreviewdata] = useState<reviewDatatype>({
       postId:postId,
       authorId:'',
@@ -58,7 +58,26 @@ const AddCommentModal:React.FC<prop> = ({postId}) => {
 
   const onSubmit=async(event:FormEvent)=>{
      event.preventDefault();
-      console.log('submitted');
+      try{
+          if(reviewdata)
+          {
+            let addcomment = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/comments`, {reviewdata});
+            
+            if(addcomment.status === 201){
+              return  Swal.fire({
+                title:'Add Review Success',
+                icon:'success'
+            })
+            }
+
+          }
+
+
+      }
+      catch(err){
+        console.log(err);
+         return alert('Cannot add comment');
+      }
    
       
 
@@ -94,7 +113,9 @@ const AddCommentModal:React.FC<prop> = ({postId}) => {
 
                     <div className='flex flex-col my-3'>
                         <label className='font-bold font-serif text-lg'>Your comment</label>
-                        <textarea name="content" className='border h-24 rounded-lg border-2 hover:bg-gray-200
+                        <textarea 
+                           onChange={(e) => Setreviewdata(prev => ({...prev,content:e.target.value}))}
+                        name="content" className='border h-24 rounded-lg border-2 hover:bg-gray-200
                                                         p-2  transition-all 
                                                         duration-300 ease-in-out focus:border-red-500 outline-none'  />
                     </div>

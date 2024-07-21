@@ -13,15 +13,17 @@ const Comments:React.FC<CommentProp> = ({postId}) => {
 
   const [ShowAdd,Setshowadd] = useState<boolean>(false);
   const {data:session,status} = useSession();
+  const [commentslength,Setcommentlength] = useState<number>(0);
 
+  const getCommentlength=(length : number)=>{
+    Setcommentlength(length);
+  }
 
   return (
     <div className='flex flex-col space-y-5'>
-            <div>
-                <h1 className='font-serif text-2xl'>{ShowAdd ? "Add Your Comment" : "Comments"}</h1> 
-            </div>
+            
            
-             <Showcomments/>
+             <Showcomments postId={postId}/>
              <AddCommentModal postId={postId} />
 
     </div>
