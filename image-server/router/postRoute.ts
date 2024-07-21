@@ -48,8 +48,41 @@ router.post('/:id', uploadPostImage.array('images', 5), (req, res) => {
   return res.status(200).send({ filenames: filenames });
 });
 
-router.delete('/:id',(req:Request,res:Response) => {
-        const {images} = req.body;
 
-        
+router.delete('/:id',(req:Request,res:Response) => {
+   
+        const {id} = req.params;
+       const images:string[] = req.body.images
+
+        const _dir = path.dirname(__dirname);
+        const filedirectory = path.join(_dir,"image","postimage",id);
+        let count = 0;
+        fs.readdir(filedirectory,(err,files) => {
+                if(err){
+                  console.log(err);
+                  return res.send('cannot deleete file', ).status(500);
+                }
+
+                files.forEach(file => {
+                     let foundfile = images.find((f) => f === file);
+                     
+                     if(foundfile){
+                         let deletingfile = path.join(filedirectory,foundfile);
+                         fs.unlink(deletingfile,(err) => {
+                          if (err) {
+                            console.log(err);
+                            return res.send('cannot deleete file', ).status(500);
+                          } else {
+                            count++;
+                            console.log(deletingfile , " unuse file deleted");
+                          }
+                         })
+                     }
+                  
+                     
+                })
+        })
+
+        return res.send({status:` file has been deleted`});
+    
 })

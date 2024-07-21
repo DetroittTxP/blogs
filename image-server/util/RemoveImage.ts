@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 export const RemoveUnuseImage = async (
-  newfilename: string,
+  newfilename: string | string[],
   userid: string,
   type: string
 ) => {

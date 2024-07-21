@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ToastContainer,toast,Bounce } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import Swal from 'sweetalert2'
 
 interface ManagePostProp {
   authorId: string | undefined;
@@ -19,8 +20,40 @@ const Managepost: React.FC<ManagePostProp> = ({ authorId }) => {
   const [postdata, Setpostdata] = useState<PostDataType[]>([]);
   const [loading,Setloading] = useState<boolean>(false);
 
-  const onDelete=async(id:string, images:string[])=>{
-      
+  const onDelete=async(id:string)=>{
+
+    Swal.fire({
+        title: "Delete this post ? ",
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+    })
+    .then(async result => {
+         if(result.isConfirmed){
+            try{
+               let del = await axios.delete(`${process.env.NEXT_PUBLIC_HOST}/api/post/${id}`);
+               if(del.status === 200)
+               {
+                Swal.fire({
+                  title: "Deleted!",
+                  text: "Your post has been deleted.",
+                  icon: "success"
+                });
+
+                return window.location.reload();
+               }
+              
+              
+            }
+            catch(err){
+                alert(err)
+            }
+         }
+    })
+
+   
   }
 
   const onEdit=()=>{
@@ -77,7 +110,7 @@ const Managepost: React.FC<ManagePostProp> = ({ authorId }) => {
        <button>{data.content}</button>
      </td>
      <td className="border border-gray-200 px-4 py-2 text-center">
-       <button onClick={() => onDelete(data._id,['test'])} className="  hover:bg-opacity-30 transition duration-300 ease-in-out py-2 px-4 bg-red-500 text-white rounded">Delete</button>
+       <button onClick={() => onDelete(data._id)} className="  hover:bg-opacity-30 transition duration-300 ease-in-out py-2 px-4 bg-red-500 text-white rounded">Delete</button>
      </td>
      <td className="border border-gray-200 px-4 py-2 text-center">
        <button className=" hover:bg-opacity-30 py-2 px-4 transition duration-300 ease-in-ou bg-blue-500 text-white rounded">Edit</button>

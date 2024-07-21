@@ -1,5 +1,6 @@
 import express,{Application,Request,Response} from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 const app:Application = express();
 const port:Number = 2000;
 
@@ -8,7 +9,7 @@ import {router as PostImageRouter} from './router/postRoute';
 import { RemoveUnuseImage } from './util/RemoveImage';
 
 app.use(cors());
-
+app.use(bodyParser.json());
 
 app.use('/user', UserImageRouter);
 app.use('/post', PostImageRouter);

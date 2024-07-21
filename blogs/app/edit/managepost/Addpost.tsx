@@ -1,9 +1,10 @@
 'use client'
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { ImageCarousel } from './ImageCarousel';
 import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
 import { ToastContainer,toast,Bounce } from "react-toastify";
+
 interface AddpostPROP{
     authorId:string | undefined
 }
@@ -26,7 +27,7 @@ const Addpost:React.FC<AddpostPROP>=({authorId}) =>  {
 
   });
   const [IsPosting,SetisPosting] = useState<boolean>(false);
-  
+  const ref = useRef<HTMLFormElement>(null);
   const notifySuccess = () => toast.success('Success');
 
   const onImageChange=(e:ChangeEvent<HTMLInputElement>)=>{
@@ -54,6 +55,7 @@ const Addpost:React.FC<AddpostPROP>=({authorId}) =>  {
 
   const onSubmit= async (e:FormEvent) => {
         e.preventDefault();
+        ref.current?.reset();
         SetisPosting(true);
         try{
             const imageData = new FormData();
@@ -110,7 +112,7 @@ const Addpost:React.FC<AddpostPROP>=({authorId}) =>  {
             <ToastContainer  />
             
             <div className='p-10'>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={onSubmit}  ref={ref} >
                      <div className='flex flex-col space-y-8'>
 
 
