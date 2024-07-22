@@ -16,10 +16,3 @@ This project is a full-stack web application for creating and managing blog post
 - TypeScript
 - MongoDB
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v14.x or later)
-- MongoDB (local or hosted instance)
-- npm or yarn
