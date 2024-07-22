@@ -12,12 +12,24 @@ const Listpost:React.FC<ListpostProp> = ({allpostdata}) => {
     const [newpostdata, setNewPostData] = useState(allpostdata);
     const input = inputContext1?.inputData || '';
 
-    const LimitTextTo20=(text:string)=>{
-        const words = text.split(' ');
-        if(words.length > 10){
-          return words.slice(0, 5).join(' ') + '...';
+    const LimitTextTo20=(text:string , type : string)=>{
+
+      if(type === 'title'){
+        if (text.length > 20) {
+          return text.slice(0, 20) + '...';
         }
+
         return text;
+        
+      }
+      else if(type == 'content'){
+        if (text.length > 20) {
+          return text.slice(0, 36) + '...';
+        }
+          
+       return text;
+      }
+ 
     }
 
 
@@ -47,9 +59,9 @@ const Listpost:React.FC<ListpostProp> = ({allpostdata}) => {
 
                            
                              <div className="p-4">
-                               <h3 className="text-lg  font-serif font-bold mb-2">{data.title}</h3>
+                               <h3 className="text-lg  font-serif font-bold mb-2">{LimitTextTo20(data.title,'title')}</h3>
                            
-                               <p className="text-gray-700 font-serif my-2">{LimitTextTo20(data.content)}</p>
+                               <p className="text-gray-400 font-serif my-2">{LimitTextTo20(data.content,'content')}</p>
                         
                              </div>
                          
