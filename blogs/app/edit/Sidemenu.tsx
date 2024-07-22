@@ -35,6 +35,10 @@ export default function Sidemenu() {
                   transition-all duration-300 ease-in-out 
                `} 
                      href="/edit/managepost">Manage Post</Link>
+               <Link className={`font-serif   hover:bg-white w-full p-4  ${pathname == "/edit/comments" ? "bg-white xl:text-2xl" : 'text-lg' }  rounded-lg
+                  transition-all duration-300 ease-in-out 
+               `} 
+                     href="/edit/comments">Comment History</Link>
         </div>
 
 

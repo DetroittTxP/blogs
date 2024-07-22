@@ -1,13 +1,14 @@
 
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState,ChangeEvent } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { FaRegUserCircle } from "react-icons/fa";
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
-
+import { InputContext } from "../inputContext";
+import { useInputContext } from "../inputContext";
 
 
 
@@ -16,13 +17,19 @@ export default function Navbar() {
   const [toggleMenu, SettoggleMenu] = useState<boolean>(false);
   const {data:session} = useSession();
   const [IsopenDropdown,SetisOpendropdown] = useState(false);
+  const inputContext = useContext(InputContext);
 
+  const { setInputData } = useInputContext();
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputData(event.target.value);
+  };
 
   const items: MenuProps['items'] = [
     {
       key: '1',
       label: (
-        <a className="w-full" href={`/edit`}>
+        <a className="w-full" href={`/edit/profile`}>
            Edit Profile
         </a>
       ),
@@ -44,8 +51,15 @@ export default function Navbar() {
           <Link href='/'>
           Blogs
           </Link>
+
+          <input onChange={handleInputChange} className=" ml-10 p-2 text-lg border border-gray-400
+                             outline-none rounded-lg transition-all duration-150 ease-in-out
+                             focus:border-2 focus:border-black font-light
+                             " type="text"/>   
  
         </div>
+
+       
 
         <div className="bg-black text-white p-2 rounded-lg hover:text-black hover:bg-white cursor-pointer md:hidden">
           <button onClick={() => SettoggleMenu(!toggleMenu)}>MENU</button>

@@ -64,10 +64,11 @@ const AddCommentModal:React.FC<prop> = ({postId}) => {
             let addcomment = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/comments`, {reviewdata});
             
             if(addcomment.status === 201){
-              return  Swal.fire({
+               await Swal.fire({
                 title:'Add Review Success',
                 icon:'success'
             })
+              return window.location.reload();
             }
 
           }
